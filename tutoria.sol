@@ -1,7 +1,7 @@
 pragma solidity ^0.4.0;
 contract Tutoria {
 
-     struct datosTutoria{
+    struct datosTutoria{
         address profesor;
         address alumno;
         string materia;
@@ -12,20 +12,13 @@ contract Tutoria {
     mapping (address => datosTutoria) tutorias;
 
     function solicitar (address prof, string mat) public{
-
         datosTutoria tut = tutorias[msg.sender];
-        
-	tut.profesor = prof;
-        
-	tut.alumno = msg.sender;
-        
-	require(prof != msg.sender);
-        
-	tut.estaConf = false;
-        
-	tut.estaCancel = false;
-        
-	tut.materia = mat;
+	    tut.profesor = prof;
+	    tut.alumno = msg.sender;
+    	require(prof != msg.sender);
+    	tut.estaConf = false;
+    	tut.estaCancel = false;
+    	tut.materia = mat;
     }
     
     function getProfesor(address llave) public view returns(address){
@@ -41,15 +34,10 @@ contract Tutoria {
     
     function confirmar(address llave) public returns (bool) {
         datosTutoria t = tutorias[llave];
-    
-    
-	require (msg.sender == t.profesor); 
-
-	t.estaConf = true;
+        require (msg.sender == t.profesor);
         
-        
-
-	return t.estaConf;
+        t.estaConf = true;
+        return t.estaConf;
     }
     
     function estaConfirmado() public returns (bool){
@@ -60,28 +48,17 @@ contract Tutoria {
 
     function cancelar(address llave) public returns (bool) {
   
-      
-        
-	require(tutorias[llave].alumno == msg.sender); 
+	    require(tutorias[llave].alumno == msg.sender); 
  
-       
-        
-	require(tutorias[llave].estaCancel == false);
-   
-     
-        
-	require(tutorias[llave].estaConf == false);
-     
-   
-        
-	return tutorias[llave].estaCancel = true;
-    
+	    require(tutorias[llave].estaCancel == false);
+  
+	    require(tutorias[llave].estaConf == false);
+	    
+	    return tutorias[llave].estaCancel = true;
     }
     
     function estaCancelado(address llave) public view returns (bool){
-    
-    
-	return tutorias[llave].estaCancel;
+        return tutorias[llave].estaCancel;
     
     }
 }
