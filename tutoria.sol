@@ -2,12 +2,13 @@ pragma solidity ^0.4.0;
 contract Tutoria {
     address profesor;
     address alumno;
-    string materia ="Paradigma";
+    string materia;
     
-    constructor (string prof, string mat) public{
-        alumno= msg.sender;
-        prof = prof;
-        materia = materia;
+    constructor (address prof, string mat) public{
+        alumno = msg.sender;
+        require(prof != msg.sender);
+        profesor = prof;
+        materia = mat;
     }
     
     function getProfesor() public returns(address){
