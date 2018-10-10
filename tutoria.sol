@@ -19,6 +19,8 @@ contract Tutoria {
         datosTutoria.materia = mat;
     }
     
+    mapping (address => datosTutoria) tutorias;
+
     function getProfesor() public returns(address){
         return datosTutoria.profesor;
     }
