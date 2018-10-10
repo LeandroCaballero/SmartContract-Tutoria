@@ -1,7 +1,7 @@
 pragma solidity ^0.4.0;
 contract Tutoria {
-    
-    struct datosTutoria{
+
+     struct datosTutoria{
         address profesor;
         address alumno;
         string materia;
@@ -9,35 +9,49 @@ contract Tutoria {
         bool estaCancel;
     }
     
-    
-    function pedir (address prof, string mat) public{
-        require(prof != msg.sender);
-        datosTutoria.alumno = msg.sender;
-        datosTutoria.estaConf = false;
-        datosTutoria.estaCancel = false;
-        datosTutoria.profesor = prof;
-        datosTutoria.materia = mat;
-    }
-    
     mapping (address => datosTutoria) tutorias;
 
-    function getProfesor() public returns(address){
-        return datosTutoria.profesor;
-    }
-    function getMateria() public returns(string){
-        return datosTutoria.materia;
+    function solicitar (address prof, string mat) public{
+
+        datosTutoria tut = tutorias[msg.sender];
+        
+	tut.profesor = prof;
+        
+	tut.alumno = msg.sender;
+        
+	require(prof != msg.sender);
+        
+	tut.estaConf = false;
+        
+	tut.estaCancel = false;
+        
+	tut.materia = mat;
     }
     
-    function getAlumno() public returns (address) {
-        return datosTutoria.alumno;
+    function getProfesor(address llave) public view returns(address){
+        return tutorias[llave].profesor;
+    }
+    function getMateria(address llave) public view returns(string){
+        return tutorias[llave].materia;
     }
     
-    function confirmar() public returns (uint) {
-        datosTutoria.estaConf = true;
+    function getAlumno(address llave) public returns (address) {
+        return tutorias[llave].alumno;
     }
     
-    function estaConfirmado() public returns (uint){
-        require(datosTutoria.estaConf == true);
-        return datosTutoria.estaConf;
+    function confirmar(address llave) public returns (bool) {
+        datosTutoria t = tutorias[llave];
+        
+	require (msg.sender == t.profesor); 
+
+	t.estaConf = true;
+        
+        
+	return t.estaConf;
+    }
+    
+    function estaConfirmado() public returns (bool){
+        require(tutorias[msg.sender].estaConf == true);
+        return tutorias[msg.sender].estaConf;
     }
 }
