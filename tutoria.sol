@@ -1,34 +1,41 @@
 pragma solidity ^0.4.0;
 contract Tutoria {
-    address profesor;
-    address alumno;
-    string materia;
-    uint conf = 0;
+    
+    struct datosTutoria{
+        address profesor;
+        address alumno;
+        string materia;
+        bool estaConf;
+        bool estaCancel;
+    }
+    
     
     function pedir (address prof, string mat) public{
-        alumno = msg.sender;
         require(prof != msg.sender);
-        profesor = prof;
-        materia = mat;
+        datosTutoria.alumno = msg.sender;
+        datosTutoria.estaConf = false;
+        datosTutoria.estaCancel = false;
+        datosTutoria.profesor = prof;
+        datosTutoria.materia = mat;
     }
     
     function getProfesor() public returns(address){
-        return profesor;
+        return datosTutoria.profesor;
     }
     function getMateria() public returns(string){
-        return materia;
+        return datosTutoria.materia;
     }
     
     function getAlumno() public returns (address) {
-        return alumno;
+        return datosTutoria.alumno;
     }
     
     function confirmar() public returns (uint) {
-        conf = 1;
+        datosTutoria.estaConf = true;
     }
     
     function estaConfirmado() public returns (uint){
-        require(conf == 1);
-        return conf;
+        require(datosTutoria.estaConf == true);
+        return datosTutoria.estaConf;
     }
 }
