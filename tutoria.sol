@@ -5,7 +5,7 @@ contract Tutoria {
     string materia;
     uint conf = 0;
     
-    constructor (address prof, string mat) public{
+    function pedir (address prof, string mat) public{
         alumno = msg.sender;
         require(prof != msg.sender);
         profesor = prof;
