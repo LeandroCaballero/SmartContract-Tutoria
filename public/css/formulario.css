@@ -1,0 +1,16 @@
+html{
+    box-sizing: border-box;
+}
+*, *::before,*::after{
+    box-sizing: inherit;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-image: url('../Images/ucp.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
