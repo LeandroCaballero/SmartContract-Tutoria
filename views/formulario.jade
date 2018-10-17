@@ -1,0 +1,63 @@
+doctype html(lang='en')
+head
+    meta(charset='UTF-8')
+    // Import Google Icon Font
+    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+     
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+   
+    title Formulario
+    
+    link(rel="stylesheet", href='/css/formulario.css')
+    link(rel='stylesheet', href='/css/materialize.min.css', media='screen,projection')
+    link(rel='stylesheet', href="/css/normalize.css")
+    
+
+  body
+    .container
+      form.col.s12(method='POST', action='formulario/respuesta')
+        
+        legend 
+         h4 Datos del alumno
+      
+        label(for='alumno', class="in") 
+        input#nombre(type='text', name='alumno', placeholder='Nombre y Apellido', autocomplete='on')
+        br
+        br
+        
+        label(for='email', class="in") 
+        input#email(type='email', name='email', placeholder='correo@dominio.com')
+    
+        br
+        br
+
+        
+        
+        legend 
+          h4 Información de la Tutoría
+
+        label(for='profesor', class="in") 
+        input#profesor(type='text', name='profesor', placeholder='Profesor', autocomplete='on')
+        br
+        br
+        label(for='materia', class="in")  
+        input#materia(type='text', name='materia', placeholder='Materia', autocomplete='on')
+        
+        legend 
+          h4 Día
+
+        label(for='dia', class="in") 
+        input#dia(type='date', name='dia')        
+                
+        br
+        br
+        button.btn.waves-effect.waves-light(type='submit', name='action')
+            | Enviar
+            i.material-icons.right send
+        br
+        br
+        button.btn.waves-effect.waves-light.red(type='reset' class="reset") 
+            | Limpiar formulario
+            i.material-icons.right clear_all
+    script(type='text/javascript', src='/js/materialize.min.js')
