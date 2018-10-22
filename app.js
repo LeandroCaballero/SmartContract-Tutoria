@@ -14,8 +14,21 @@ var compiledCode = solc.compile(code)
 var abiDefinition = JSON.parse(compiledCode.contracts[':Tutoria'].interface) //Su contrato inteligente
 var byteCode = compiledCode.contracts[':Tutoria'].bytecode //Su contrato inteligente
 var TutoriaContract = new web3.eth.Contract(abiDefinition,{data: byteCode, from: web3.eth.accounts[0], gas: 4700000})
-TutoriaContract.deploy({data:byteCode}).send({from:'0xb8280bbfcdece81b4c6921ebfe49d0f773ddf45a',gas: 6721975, gasPrice: '1000'});
+TutoriaContract.deploy({data:byteCode}).send({from:'0xff7cbcb3bae4b13db50860a023e31f4a0b0bfa46',gas: 6721975, gasPrice: '1000'}) //address de quien deploya, alumno para solicitar tutoria
+myContract = new web3.eth.Contract(abiDefinition,'0x9be5d468946af6b1575ce2c3940131b3fb320792', {data:byteCode,gasPrice:'20000000000'}); //address del contrato
 
+myContract.methods.solicitar('0xbf965026809eeda78bd15e66ed185220fbc44c0b','Paradigmas').send({ from: '0xff7cbcb3bae4b13db50860a023e31f4a0b0bfa46', gas: 200000 }) //primer address: profesor, segundo address: alumno
+myContract.methods.getMateria('0xff7cbcb3bae4b13db50860a023e31f4a0b0bfa46').call().then(console.log)
+myContract.methods.getAlumno('0xff7cbcb3bae4b13db50860a023e31f4a0b0bfa46').call().then(console.log)
+myContract.methods.getProfesor('0xff7cbcb3bae4b13db50860a023e31f4a0b0bfa46').call().then(console.log)
+
+myContract.methods.estaConfirmado('0xff7cbcb3bae4b13db50860a023e31f4a0b0bfa46').call().then(console.log)
+myContract.methods.estaCancelado('0xff7cbcb3bae4b13db50860a023e31f4a0b0bfa46').call().then(console.log)
+//myContract.methods.confirmar('0xff7cbcb3bae4b13db50860a023e31f4a0b0bfa46').send({ from: '0xbf965026809eeda78bd15e66ed185220fbc44c0b', gas: 200000 })
+myContract.methods.cancelar('0xff7cbcb3bae4b13db50860a023e31f4a0b0bfa46').send({ from: '0xff7cbcb3bae4b13db50860a023e31f4a0b0bfa46', gas: 200000 })
+
+
+//routers
 var inicioRouter = require('./routes/inicio');
 var usersRouter = require('./routes/users');
 var leandroRouter = require('./routes/leandro');
