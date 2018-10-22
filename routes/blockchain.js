@@ -9,9 +9,6 @@ var tutoria = new BlockChain();
 
 /* GET users listing. */
 
-router.get('/inicio', function (req, res, next) {
-  res.render('index', {});
-});
 
 
 router.get('/', function (req, res, next) {

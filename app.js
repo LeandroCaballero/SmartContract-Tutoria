@@ -3,6 +3,18 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var Web3 = require('web3')
+var solc = require('solc')
+var fs = require('fs')
+
+var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+var code = fs.readFileSync('tutoria.sol').toString() //Su archivo del contrato inteligente
+
+var compiledCode = solc.compile(code)
+var abiDefinition = JSON.parse(compiledCode.contracts[':Tutoria'].interface) //Su contrato inteligente
+var byteCode = compiledCode.contracts[':Tutoria'].bytecode //Su contrato inteligente
+var TutoriaContract = new web3.eth.Contract(abiDefinition,{data: byteCode, from: web3.eth.accounts[0], gas: 4700000})
+TutoriaContract.deploy({data:byteCode}).send({from:'0xb8280bbfcdece81b4c6921ebfe49d0f773ddf45a',gas: 6721975, gasPrice: '1000'});
 
 var inicioRouter = require('./routes/inicio');
 var usersRouter = require('./routes/users');
