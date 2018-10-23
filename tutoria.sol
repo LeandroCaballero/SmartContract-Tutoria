@@ -6,8 +6,8 @@ contract Tutoria {
         address alumno;
         string materia;
         bytes32 hash;
-        bool estaConf;
-        bool estaCancel;
+        uint estaConf;
+        uint estaCancel;
     }
     
     mapping (address => datosTutoria) tutorias;
@@ -19,8 +19,8 @@ contract Tutoria {
 	    tut.alumno = msg.sender;
         tut.materia = mat;
     	tut.hash = keccak256(tut.profesor, tut.alumno, tut.materia);
-    	tut.estaConf = false;
-    	tut.estaCancel = false;
+    	tut.estaConf = 0;
+    	tut.estaCancel = 0;
     	
     }
     
@@ -39,32 +39,32 @@ contract Tutoria {
         return tutorias[llave].alumno;
     }
     
-    function confirmar(address llave) public returns (bool) {
+    function confirmar(address llave) public returns (uint) {
         //requires
         require(tutorias[llave].profesor == msg.sender);
-        require(tutorias[llave].estaCancel == false);
-        require(tutorias[llave].estaConf == false);
+        require(tutorias[llave].estaCancel == 0);
+        require(tutorias[llave].estaConf == 0);
         
-        return tutorias[llave].estaConf = true;
+        return tutorias[llave].estaConf = 1;
     }
     
-    function estaConfirmado(address key) public returns (bool){
+    function estaConfirmado(address key) public returns (uint){
         
         return tutorias[key].estaConf;
     }
 
-    function cancelar(address llave) public returns (bool) {
+    function cancelar(address llave) public returns (uint) {
         
 	    require(tutorias[llave].alumno == msg.sender); 
  
-	    require(tutorias[llave].estaCancel == false);
+	    require(tutorias[llave].estaCancel == 0);
   
-	    require(tutorias[llave].estaConf == false);
+	    require(tutorias[llave].estaConf == 0);
 	    
-	    return tutorias[llave].estaCancel = true;
+	    return tutorias[llave].estaCancel = 1;
     }
     
-    function estaCancelado(address llave) public view returns (bool){
+    function estaCancelado(address llave) public view returns (uint){
         return tutorias[llave].estaCancel;
     
     }

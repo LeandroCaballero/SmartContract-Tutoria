@@ -120,62 +120,38 @@ router.post("/metodos/respuesta", function (req, res, next) {
         res.send(respuesta);
       });
       break;
-    //case "4":
-    //  myContract.methods.getProfesor(usuario).call().then(e => {
-//
-    //    if (e.length < 1) {
-    //      res.send('Usuario Invalido')
-    //    }
-    //    var respuesta = 'getMateria(): ';
-    //    for (let index = 0; index < e.length; index++) {
-    //      const a = e[index];
-    //      respuesta += a.toString();
-    //    }
-    //    res.send(respuesta);
-    //  });
-    //  break;
-    //case "5":
-    //  myContract.methods.getProfesor(usuario).call().then(e => {
-//
-    //    if (e.length < 1) {
-    //      res.send('Usuario Invalido')
-    //    }
-    //    var respuesta = 'getMateria(): ';
-    //    for (let index = 0; index < e.length; index++) {
-    //      const a = e[index];
-    //      respuesta += a.toString();
-    //    }
-    //    res.send(respuesta);
-    //  });
-    //  break;
-    //case "6":
-    //  myContract.methods.getProfesor(usuario).call().then(e => {
-//
-    //    if (e.length < 1) {
-    //      res.send('Usuario Invalido')
-    //    }
-    //    var respuesta = 'getMateria(): ';
-    //    for (let index = 0; index < e.length; index++) {
-    //      const a = e[index];
-    //      respuesta += a.toString();
-    //    }
-    //    res.send(respuesta);
-    //  });
-    //  break;
-    //case "7":
-    //  myContract.methods.getProfesor(usuario).call().then(e => {
-//
-    //    if (e.length < 1) {
-    //      res.send('Usuario Invalido')
-    //    }
-    //    var respuesta = 'getMateria(): ';
-    //    for (let index = 0; index < e.length; index++) {
-    //      const a = e[index];
-    //      respuesta += a.toString();
-    //    }
-    //    res.send(respuesta);
-    //  });
-    //  break;
+    case "4":
+      myContract.methods.estaConfirmado(usuario).call().then(e => {
+
+        var respuesta = 'estaConfirmado(): ';
+        for (let index = 0; index < e.length; index++) {
+          const a = e[index];
+          respuesta += a.toString();
+        }
+        res.send(respuesta);
+      });
+      break;
+    case "5":
+      myContract.methods.estaCancelado(usuario).call().then(e => {
+
+        var respuesta = 'estaCancelado(): ';
+        for (let index = 0; index < e.length; index++) {
+          const a = e[index];
+          respuesta += a.toString();
+        }
+        res.send(respuesta);
+
+      });
+      break;
+    case "6":
+      myContract.methods.confirmar(usuario).send({ from: profesor, gas: 200000 })
+
+      break;
+
+    case "7":
+    myContract.methods.cancelar(usuario).send({ 
+      from: usuario, gas: 200000 })
+      break;
   }
 
 });
