@@ -14,27 +14,59 @@ let app = require("../app")
 //  res.render('login', {});
 //});
 
-router.get('/accounts', function(req, res, next) {
+//Login
+router.get('/login', function (req, res, next) {
+  let query = url(req.url, true).query;
+  res.render('login', {
+    usuario: query.usuario,
+    materia: query.materia,
+    profesor: query.profesor,
+
+  });
+});
+
+router.post("/login/respuesta", function (req, res, next) {
+  global.usuario = req.body.usuario;
+
+  global.materia = req.body.materia;
+  global.profesor = req.body.profesor;
+  if (profesor == usuario) {
+    res.render('errorLogin', {});
+
+  } else {
+    console.log(usuario, materia, profesor)
+    //console.log(app.abi)
+    //console.log(app.byte)
+    global.myContract = new web3.eth.Contract(app.abi, '0xa5877e9ce8fb5e87340bab7d6305e23538f1a125', { data: app.byte, gasPrice: '20000000000' }); //address del contrato
+    myContract.methods.solicitar(profesor, materia).send({ from: usuario, gas: 200000 })
+    res.render('respuesta', {});
+  }
+});
+
+//cuentas
+router.get('/accounts', function (req, res, next) {
 
   web3.eth.getAccounts()
     .then(accounts => {
 
       var respuesta = 'Accounts en la blockchain';
-      
+
 
       for (let index = 0; index < accounts.length; index++) {
         const a = accounts[index];
-        
+
         respuesta += '<br />';
         respuesta += a.toString();
-      }    
-      
+      }
+
       res.send(respuesta);
 
     });
-  
+
 });
-router.get('/last', function(req, res, next) {
+
+//ultimo
+router.get('/last', function (req, res, next) {
   web3.eth.getBlockNumber()
     .then(number => {
 
@@ -48,47 +80,109 @@ router.get('/last', function(req, res, next) {
 router.get('/metodos', function (req, res, next) {
   let query = url(req.url, true).query;
   res.render('metodos', {
-    usuario: query.usuario,
-    materia: query.materia,
-    profesor: query.profesor,
-
+    metodo: query.metodo
   });
 });
 
 router.post("/metodos/respuesta", function (req, res, next) {
   let metodo = req.body.metodo;
+  switch (metodo) {
+    case "1":
+      myContract.methods.getMateria(usuario).call().then(e => {
 
-  
-  console.log(metodo);
+        var respuesta = 'getMateria(): ';
+        for (let index = 0; index < e.length; index++) {
+          const a = e[index];
+          respuesta += a.toString();
+        }
+        res.send(respuesta);
+      });
+      break;
+    //case "2":
+    //  myContract.methods.getProfesor(usuario).call().then(e => {
+//
+    //    if (e.length < 1) {
+    //      res.send('Usuario Invalido')
+    //    }
+    //    var respuesta = 'getProfesor(): ';
+    //    for (let index = 0; index < e.length; index++) {
+    //      const a = e[index];
+    //      respuesta += a.toString();
+    //    }
+    //    res.send(respuesta);
+    //  });
+    //  break;
+    //case "3":
+    //  myContract.methods.getAlumno(usuario).call().then(e => {
+//
+    //    var respuesta = 'getAlumno(): ';
+    //    for (let index = 0; index < e.length; index++) {
+    //      const a = e[index];
+    //      respuesta += a.toString();
+    //    }
+    //    res.send(respuesta);
+    //  });
+    //  break;
+    //case "4":
+    //  myContract.methods.getProfesor(usuario).call().then(e => {
+//
+    //    if (e.length < 1) {
+    //      res.send('Usuario Invalido')
+    //    }
+    //    var respuesta = 'getMateria(): ';
+    //    for (let index = 0; index < e.length; index++) {
+    //      const a = e[index];
+    //      respuesta += a.toString();
+    //    }
+    //    res.send(respuesta);
+    //  });
+    //  break;
+    //case "5":
+    //  myContract.methods.getProfesor(usuario).call().then(e => {
+//
+    //    if (e.length < 1) {
+    //      res.send('Usuario Invalido')
+    //    }
+    //    var respuesta = 'getMateria(): ';
+    //    for (let index = 0; index < e.length; index++) {
+    //      const a = e[index];
+    //      respuesta += a.toString();
+    //    }
+    //    res.send(respuesta);
+    //  });
+    //  break;
+    //case "6":
+    //  myContract.methods.getProfesor(usuario).call().then(e => {
+//
+    //    if (e.length < 1) {
+    //      res.send('Usuario Invalido')
+    //    }
+    //    var respuesta = 'getMateria(): ';
+    //    for (let index = 0; index < e.length; index++) {
+    //      const a = e[index];
+    //      respuesta += a.toString();
+    //    }
+    //    res.send(respuesta);
+    //  });
+    //  break;
+    //case "7":
+    //  myContract.methods.getProfesor(usuario).call().then(e => {
+//
+    //    if (e.length < 1) {
+    //      res.send('Usuario Invalido')
+    //    }
+    //    var respuesta = 'getMateria(): ';
+    //    for (let index = 0; index < e.length; index++) {
+    //      const a = e[index];
+    //      respuesta += a.toString();
+    //    }
+    //    res.send(respuesta);
+    //  });
+    //  break;
+  }
+
 });
 module.exports = router;
 
-//Login
-router.get('/login', function (req, res, next) {
-  let query = url(req.url, true).query;
-  res.render('login', {
-    usuario: query.usuario,
-    materia: query.materia,
-    profesor: query.profesor,
 
-  });
-});
-
-router.post("/login/respuesta", function (req, res, next) {
-  let usuario = req.body.usuario;
-
-  let materia = req.body.materia;
-  let profesor = req.body.profesor;
-  if(profesor == usuario){
-    res.render('errorLogin',{});
-    
-  }else{
-    console.log(usuario,materia,profesor)
-    //console.log(app.abi)
-    //console.log(app.byte)
-    myContract = new web3.eth.Contract(app.abi,'0xa5877e9ce8fb5e87340bab7d6305e23538f1a125', {data:app.byte, gasPrice:'20000000000'}); //address del contrato
-    myContract.methods.solicitar(profesor,'Paradigmas').send({ from: usuario, gas: 200000 })
-    res.render('respuesta', {});
-  }
-});
 module.exports = router;
