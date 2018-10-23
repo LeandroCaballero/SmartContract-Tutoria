@@ -6,6 +6,7 @@ var logger = require('morgan');
 var Web3 = require('web3')
 var solc = require('solc')
 var fs = require('fs')
+var router = express.Router();
 
 var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 var code = fs.readFileSync('tutoria.sol').toString() //Su archivo del contrato inteligente
