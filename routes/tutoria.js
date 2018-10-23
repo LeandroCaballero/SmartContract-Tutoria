@@ -10,38 +10,61 @@ var url = require('url-parse')
 let app = require("../app")
 
 
-//router.get('/login', function (req, res, next) {
-//  res.render('login', {});
-//});
-
-//Login
 router.get('/login', function (req, res, next) {
-  let query = url(req.url, true).query;
-  res.render('login', {
-    usuario: query.usuario,
-    materia: query.materia,
-    profesor: query.profesor,
+  res.render('login', {});
+});
 
-  });
+
+//Login alumno
+router.post('/login/login/respuesta2', function (req, res, next) {
+  global.usuario = req.body.usuario;
+  global.materia = req.body.materia;
+  global.profesor = req.body.profesor;
+  console.log(usuario, materia, profesor)
+  //console.log(app.abi)
+  //console.log(app.byte)
+  global.myContract = new web3.eth.Contract(app.abi, '0xa5877e9ce8fb5e87340bab7d6305e23538f1a125', { data: app.byte, gasPrice: '20000000000' }); //address del contrato
+  myContract.methods.solicitar(profesor, materia).send({ from: usuario, gas: 200000 })
+  var respuesta = 'Tutoria solicitada con exito';
+  res.send(respuesta);
+});
+
+//profesor
+router.post('/login/login/respuesta3', function (req, res, next) {
+  global.usuario = req.body.usuario;
+  global.profesor = req.body.profesor;
+  console.log(usuario, materia, profesor)
+  //console.log(app.abi)
+  //console.log(app.byte)
+  myContract.methods.confirmar(usuario).send({ from: profesor, gas: 200000 })
+  myContract.methods.estaConfirmado(usuario).call().then(e => {
+
+        var respuesta = 'estaConfirmado(): ';
+        for (let index = 0; index < e.length; index++) {
+          const a = e[index];
+          respuesta += a.toString();
+        }
+        res.send(respuesta);
+      });
+
 });
 
 router.post("/login/respuesta", function (req, res, next) {
   global.usuario = req.body.usuario;
 
-  global.materia = req.body.materia;
-  global.profesor = req.body.profesor;
-  if (profesor == usuario) {
-    res.render('errorLogin', {});
+  switch (usuario) {
+    case "1":
+      res.render('loginAlumno', {});
+      
+      break;
+    case "2":
+      res.render('loginProf', {});
+      
+      break;
 
-  } else {
-    console.log(usuario, materia, profesor)
-    //console.log(app.abi)
-    //console.log(app.byte)
-    global.myContract = new web3.eth.Contract(app.abi, '0xa5877e9ce8fb5e87340bab7d6305e23538f1a125', { data: app.byte, gasPrice: '20000000000' }); //address del contrato
-    myContract.methods.solicitar(profesor, materia).send({ from: usuario, gas: 200000 })
-    res.render('respuesta', {});
   }
 });
+
 
 //cuentas
 router.get('/accounts', function (req, res, next) {
@@ -148,10 +171,7 @@ router.post("/metodos/respuesta", function (req, res, next) {
 
       break;
 
-    case "7":
-    myContract.methods.cancelar(usuario).send({ 
-      from: usuario, gas: 200000 })
-      break;
+
   }
 
 });
