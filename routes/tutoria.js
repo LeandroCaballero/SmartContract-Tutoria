@@ -5,11 +5,11 @@ var fs = require('fs')
 var router = express.Router();
 
 var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+var url = require('url-parse')
 
-
-router.get('/login', function (req, res, next) {
-  res.render('login', {});
-});
+//router.get('/login', function (req, res, next) {
+//  res.render('login', {});
+//});
 
 router.get('/accounts', function(req, res, next) {
 
@@ -38,5 +38,25 @@ router.get('/last', function(req, res, next) {
       res.send(number.toString());
 
     });
+});
+
+
+router.get('/login', function (req, res, next) {
+  let query = url(req.url, true).query;
+  res.render('login', {
+    usuario: query.usuario,
+    materia: query.materia,
+    profesor: query.profesor,
+
+  });
+});
+
+router.post("/login/respuesta", function (req, res, next) {
+  let usuario = req.body.usuario;
+
+  let materia = req.body.materia;
+  let profesor = req.body.profesor;
+  console.log(usuario,materia,profesor)
+  res.render('respuesta', {});
 });
 module.exports = router;
