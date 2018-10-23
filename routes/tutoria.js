@@ -109,17 +109,17 @@ router.post("/metodos/respuesta", function (req, res, next) {
         res.send(respuesta);
       });
       break;
-    //case "3":
-    //  myContract.methods.getAlumno(usuario).call().then(e => {
-//
-    //    var respuesta = 'getAlumno(): ';
-    //    for (let index = 0; index < e.length; index++) {
-    //      const a = e[index];
-    //      respuesta += a.toString();
-    //    }
-    //    res.send(respuesta);
-    //  });
-    //  break;
+    case "3":
+      myContract.methods.getAlumno(usuario).call().then(e => {
+
+        var respuesta = 'getAlumno(): ';
+        for (let index = 0; index < e.length; index++) {
+          const a = e[index];
+          respuesta += a.toString();
+        }
+        res.send(respuesta);
+      });
+      break;
     //case "4":
     //  myContract.methods.getProfesor(usuario).call().then(e => {
 //
