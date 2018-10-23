@@ -76,7 +76,12 @@ router.post("/login/respuesta", function (req, res, next) {
 
   let materia = req.body.materia;
   let profesor = req.body.profesor;
-  console.log(usuario,materia,profesor)
-  res.render('respuesta', {});
+  if(profesor == usuario){
+    res.render('errorLogin',{});
+    
+  }else{
+    console.log(usuario,materia,profesor)
+    res.render('respuesta', {});
+  }
 });
 module.exports = router;
