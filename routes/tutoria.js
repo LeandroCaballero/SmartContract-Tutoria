@@ -40,7 +40,27 @@ router.get('/last', function(req, res, next) {
     });
 });
 
+//Metodos
 
+router.get('/metodos', function (req, res, next) {
+  let query = url(req.url, true).query;
+  res.render('metodos', {
+    usuario: query.usuario,
+    materia: query.materia,
+    profesor: query.profesor,
+
+  });
+});
+
+router.post("/metodos/respuesta", function (req, res, next) {
+  let metodo = req.body.metodo;
+
+  
+  console.log(metodo);
+});
+module.exports = router;
+
+//Login
 router.get('/login', function (req, res, next) {
   let query = url(req.url, true).query;
   res.render('login', {

@@ -1,0 +1,35 @@
+html
+  head
+    
+
+    meta(charset='UTF-8')
+    // Import Google Icon Font
+    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+
+    title Metodos
+
+    link(rel="stylesheet", href='/css/formulario.css')
+    
+    link(rel='stylesheet', href="/css/normalize.css")
+    
+  body
+    div(style='margin:100px;')
+      form(method='POST', action='metodos/respuesta')
+        h2  Metodos:
+        br
+        select#metodo(name='metodo')
+          option(value='1') GetMeteria
+          option(value='2') GetProfesor
+          option(value='3') GetAlumno
+
+          option(value='4') Confirmar
+          option(value='5') Cancelar
+
+          option(value='6') Esta confirmado?
+          option(value='7') Esta Cancelada?
+          
+        br
+        br
+    
+        input(type='submit', value='Aceptar')
