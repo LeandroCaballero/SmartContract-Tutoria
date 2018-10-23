@@ -7,6 +7,9 @@ var router = express.Router();
 var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 var url = require('url-parse')
 
+let app = require("../app")
+
+
 //router.get('/login', function (req, res, next) {
 //  res.render('login', {});
 //});
@@ -81,6 +84,10 @@ router.post("/login/respuesta", function (req, res, next) {
     
   }else{
     console.log(usuario,materia,profesor)
+    //console.log(app.abi)
+    //console.log(app.byte)
+    myContract = new web3.eth.Contract(app.abi,'0xa5877e9ce8fb5e87340bab7d6305e23538f1a125', {data:app.byte, gasPrice:'20000000000'}); //address del contrato
+    myContract.methods.solicitar(profesor,'Paradigmas').send({ from: usuario, gas: 200000 })
     res.render('respuesta', {});
   }
 });
