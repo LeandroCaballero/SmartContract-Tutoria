@@ -14,9 +14,45 @@ router.get('/login', function (req, res, next) {
   res.render('login', {});
 });
 
+//Login Inicial
+router.post("/login/respuesta", function (req, res, next) {
+  global.usuario = req.body.usuario;
+
+  switch (usuario) {
+    case "1":
+      res.render('loginAlumno', {});
+      
+      break;
+    case "2":
+      res.render('loginProf', {});
+      
+      break;
+
+  }
+});
+
 
 //Login alumno
 router.post('/login/login/respuesta2', function (req, res, next) {
+  let metodo= req.body.metodo
+
+  switch (metodo) {
+    case "1":
+      res.render('solicitar', {});
+      
+      break;
+    case "2":
+      res.render('cancelar', {});
+      
+      break;
+
+  }
+
+  res.render('respuesta', {});
+});
+
+
+router.post('/login/login/login/respuesta5', function (req, res, next) {
   global.usuario = req.body.usuario;
   global.materia = req.body.materia;
   global.profesor = req.body.profesor;
@@ -31,6 +67,23 @@ router.post('/login/login/respuesta2', function (req, res, next) {
   })
 
   res.render('respuesta', {});
+});
+
+router.post('/login/login/login/respuesta4', function (req, res, next) {
+  global.usuario = req.body.usuario;
+  global.key = req.body.key
+  console.log(usuario, materia, profesor)
+  myContract.methods.cancelar(key).send({ from: usuario, gas: 200000 })
+    myContract.methods.estaCancelado(key).call().then(e => {
+
+      var respuesta = 'estaCancelado(): ';
+      for (let index = 0; index < e.length; index++) {
+        const a = e[index];
+        respuesta += a.toString();
+      }
+      res.send(respuesta);
+    });
+  res.render('respuestaCancelado', {});
 });
 
 //profesor
@@ -52,21 +105,7 @@ router.post('/login/login/respuesta3', function (req, res, next) {
 
 });
 
-router.post("/login/respuesta", function (req, res, next) {
-  global.usuario = req.body.usuario;
 
-  switch (usuario) {
-    case "1":
-      res.render('loginAlumno', {});
-      
-      break;
-    case "2":
-      res.render('loginProf', {});
-      
-      break;
-
-  }
-});
 
 
 //cuentas
@@ -170,19 +209,6 @@ router.post("/metodos/respuesta", function (req, res, next) {
 
       });
       break;
-    case "6":
-    myContract.methods.cancelar(key).send({ from: usuario, gas: 200000 })
-    myContract.methods.estaCancelado(key).call().then(e => {
-
-      var respuesta = 'estaCancelado(): ';
-      for (let index = 0; index < e.length; index++) {
-        const a = e[index];
-        respuesta += a.toString();
-      }
-      res.send(respuesta);
-    });
-    break;
-
 
   }
 

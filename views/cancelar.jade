@@ -1,0 +1,41 @@
+html
+  head
+    
+
+    meta(charset='UTF-8')
+    // Import Google Icon Font
+    link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+
+    title Login
+
+    link(rel="stylesheet", href='/css/formulario.css')
+    
+    link(rel='stylesheet', href="/css/normalize.css")
+    
+  body
+    div(style='margin:100px;')
+      form(method='POST', action='login/respuesta4')
+        h2 Usuario:
+        br
+        select#usuario(name='usuario')
+
+
+          option(value='0xb84d66b9aa22c77cb82b756a64dba9e26719b4d7') Leandro
+          option(value='0xcffd857638c1e8e5dcb8df934f6c2d8fd12fea61') Facundo
+          option(value='0xfd8fc5f54264089778fe45d188b1636d9399ce5e') Gonsalo
+          option(value='0xedb0e48927a72e9dc907afd23d9794586acfd149') Agustin
+          option(value='0x95f4c7b52bd3890dd6ab2a488d51414b3b961eca') Martin
+        
+        br
+        br
+        br
+        h2 Ingrese Key de la tutoria:
+        br
+        input#key(type='text', name='key', placeholder='key', autocomplete='on')
+        br
+        br
+
+        br
+        br
+        input(type='submit', value='Cancelar')
