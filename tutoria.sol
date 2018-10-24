@@ -5,41 +5,44 @@ contract Tutoria {
         address profesor;
         address alumno;
         string materia;
-        bytes32 hash;
+        uint256 hash;
         uint estaConf;
         uint estaCancel;
     }
     
-    mapping (address => datosTutoria) tutorias;
+    mapping (uint256 => datosTutoria) tutorias;
 
-    function solicitar (address prof, string mat) public{
+    function solicitar (address prof, string mat) public returns (uint256){
         require(prof != msg.sender);
-        datosTutoria tut = tutorias[msg.sender];
+        uint256 v = uint256 (keccak256(prof, msg.sender, mat,  block.timestamp, block.difficulty));
+        
+        datosTutoria tut = tutorias[v];
 	    tut.profesor = prof;
 	    tut.alumno = msg.sender;
         tut.materia = mat;
-    	tut.hash = keccak256(tut.profesor, tut.alumno, tut.materia);
+    	tut.hash = v;
     	tut.estaConf = 0;
     	tut.estaCancel = 0;
     	
+    	return v;
     }
     
-    function getHash(address k) public view returns (bytes32) {
+    function getHash(uint256 k) public view returns (uint256) {
         return tutorias[k].hash;
     }
 
-    function getProfesor(address llave) public view returns(address){
+    function getProfesor(uint256 llave) public view returns(address){
         return tutorias[llave].profesor;
     }
-    function getMateria(address llave) public view returns(string){
+    function getMateria(uint256 llave) public view returns(string){
         return tutorias[llave].materia;
     }
     
-    function getAlumno(address llave) public returns (address) {
+    function getAlumno(uint256 llave) public returns (address) {
         return tutorias[llave].alumno;
     }
     
-    function confirmar(address llave) public returns (uint) {
+    function confirmar(uint256 llave) public returns (uint) {
         //requires
         require(tutorias[llave].profesor == msg.sender);
         require(tutorias[llave].estaCancel == 0);
@@ -48,12 +51,12 @@ contract Tutoria {
         return tutorias[llave].estaConf = 1;
     }
     
-    function estaConfirmado(address key) public returns (uint){
+    function estaConfirmado(uint256 key) public returns (uint){
         
         return tutorias[key].estaConf;
     }
 
-    function cancelar(address llave) public returns (uint) {
+    function cancelar(uint256 llave) public returns (uint) {
         
 	    require(tutorias[llave].alumno == msg.sender); 
  
@@ -64,7 +67,7 @@ contract Tutoria {
 	    return tutorias[llave].estaCancel = 1;
     }
     
-    function estaCancelado(address llave) public view returns (uint){
+    function estaCancelado(uint256 llave) public view returns (uint){
         return tutorias[llave].estaCancel;
     
     }
