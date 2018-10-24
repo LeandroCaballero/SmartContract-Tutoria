@@ -45,7 +45,6 @@ router.post('/login/login/respuesta2', function (req, res, next) {
       res.render('cancelar', {});
       
       break;
-
   }
 
   res.render('respuesta', {});
@@ -57,6 +56,7 @@ router.post('/login/login/login/respuesta5', function (req, res, next) {
   global.materia = req.body.materia;
   global.profesor = req.body.profesor;
   console.log(usuario, materia, profesor)
+  console.log('---------------------------------------------------------------------')
   //console.log(app.abi)
   //console.log(app.byte)
   global.myContract = new web3.eth.Contract(app.abi, '0xa5877e9ce8fb5e87340bab7d6305e23538f1a125', { data: app.byte, gasPrice: '20000000000' }); //address del contrato
@@ -83,7 +83,7 @@ router.post('/login/login/login/respuesta4', function (req, res, next) {
       }
       res.send(respuesta);
     });
-  res.render('respuestaCancelado', {});
+  
 });
 
 //profesor
